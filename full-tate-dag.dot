@@ -1,0 +1,34 @@
+# full state DAG
+
+digraph {
+    node [ shape=circle ]
+    edge [ dir=none ]
+#   splines=curved
+    rankdir=BT;
+
+    subgraph {
+        rank = same; B; C1;
+    }
+
+    A [ label=A shape=doublecircle ]
+    B [ label=B shape=doublecircle ]
+    C1 [ label=C1 shape=doublecircle ]
+    C2 [ label=C2 shape=doublecircle ]
+    C3 [ label=C3 shape=doublecircle ]
+    D [ label=D shape=doublecircle ]
+    E [ label=E shape=doublecircle ]
+
+    # prev_state_events DAG
+    B -> A [ color=red, dir=forward ];
+
+    D -> B [ color=red, dir=forward ];
+    D -> C3 [ color=red, dir=forward ];
+    C3 -> C2 [ color=red, dir=forward ];
+    C2 -> C1 [ color=red, dir=forward ];
+    C1 -> A [ color=red, dir=forward ];
+
+    E -> D [ color=red, dir=forward ];
+
+    # prev_state_sequence_events DAG
+    #C3 -> A [ color=blue, dir=forward ];
+}

@@ -1,0 +1,25 @@
+# state DAG with redundant state events removed
+
+digraph {
+    node [ shape=circle ]
+    edge [ dir=none ]
+#   splines=curved
+    rankdir=BT;
+
+    A [ label=A shape=doublecircle ]
+    B [ label=B shape=doublecircle ]
+    C3 [ label=C3 shape=doublecircle ]
+    D [ label=D shape=doublecircle ]
+    E [ label=E shape=doublecircle ]
+
+    # prev_state_events DAG
+    B -> A [ color=red, dir=forward ];
+
+    D -> B [ color=red, dir=forward ];
+    D -> C3 [ color=red, dir=forward ];
+
+    E -> D [ color=red, dir=forward ];
+
+    # prev_state_sequence_events DAG
+    C3 -> A [ color=blue, dir=forward ];
+}

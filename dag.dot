@@ -1,0 +1,72 @@
+# full event DAG showing state DAG overlays
+
+digraph {
+    node [ shape=circle ]
+    edge [ dir=none ]
+#   splines=curved
+
+    A [ label=A shape=doublecircle ]
+    B [ label=B shape=doublecircle ]
+    C1 [ label=C1 shape=doublecircle ]
+    C2 [ label=C2 shape=doublecircle ]
+    C3 [ label=C3 shape=doublecircle ]
+    D [ label=D shape=doublecircle ]
+    E [ label=E shape=doublecircle ]
+
+    1 [ label="" ]
+    2 [ label="" ]
+    3 [ label="" ]
+    4 [ label="" ]
+
+    subgraph {
+        rank = same; B; C1;
+    }
+
+    subgraph {
+        rank = same; 2; C3;
+    }
+
+    A -> 1 [weight=10];
+    1 -> B [weight=10];
+
+    B -> 2 [weight=10];
+    2 -> 3 [weight=10];
+
+    1 -> C1 [weight=10];
+    C1 -> C2 [weight=10];
+    C2 -> C3 [weight=10];
+    C3 -> 3 [weight=10];
+
+    3 -> 4 [weight=10];
+    4 -> D [weight=10];
+    D -> E [weight=10];
+
+    # prev_state_events DAG
+    1 -> A [ color=red, dir=forward ];
+
+    B -> A [ color=red, dir=forward ];
+    2 -> B [ color=red, dir=forward ];
+    3 -> B [ color=red, dir=forward ];
+
+    3 -> C3 [ color=red, dir=forward ];
+    C3 -> C2 [ color=red, dir=forward ];
+    C2 -> C1 [ color=red, dir=forward ];
+    C1 -> A [ color=red, dir=forward ];
+
+    4 -> B [ color=red, dir=forward ];
+    4 -> C3 [ color=red, dir=forward ];
+
+    D -> B [ color=red, dir=forward ];
+    D -> C3 [ color=red, dir=forward ];
+
+    E -> D [ color=red, dir=forward ];
+
+    # prev_state_sequence_events DAG
+    B -> A [ color=blue, dir=forward ];
+
+    C1 -> A [ color=blue, dir=forward ];
+    C2 -> A [ color=blue, dir=forward ];
+    C3 -> A [ color=blue, dir=forward ];
+
+    E -> D [ color=blue, dir=forward ];
+}
